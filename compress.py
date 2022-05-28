@@ -38,8 +38,27 @@ def compress():
         nodes.append(new_node)
         nodes = sorted(nodes, key = lambda x: x.prob)
 
-    print(nodes[0].get_dict())
+    codes = nodes[0].get_dict()
+    print(codes)
+    print(counter)
+    raw_size = len(content) * 8
+    compressed_size = 0
+    
+    for item in counter:
+        compressed_size += item[1] * len(codes[item[0]])
+    print(f"raw: {raw_size} compressed: {compressed_size}")
+    empty_bits = (8 - compressed_size % 8) % 8
+    print(empty_bits)
     
     utils.print_hashssum(content)
+    
+    output = open(f"{pathlib.Path(name).stem}.hfcd", "wb")
+    buffer = "0" * empty_bits
+    for word in content:
+        buffer += codes[chr(word)]
+        
+    print(buffer)
+    print(len(buffer))
+    output.write(int(buffer, 2).to_bytes(len(buffer) // 8, byteorder='big'))
     
     if __name__ == '__main__':
