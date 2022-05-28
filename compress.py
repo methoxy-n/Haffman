@@ -39,3 +39,7 @@ def compress():
         nodes = sorted(nodes, key = lambda x: x.prob)
 
     print(nodes[0].get_dict())
+    
+    utils.print_hashssum(content)
+    
+    if __name__ == '__main__':
