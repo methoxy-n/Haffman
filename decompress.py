@@ -13,7 +13,7 @@ def decompress():
         print("File is not compressed yet")
         exit()
     content = raw.read()
-    utils.print_hashssum(content)
+    utils.print_hashsum(content)
 
     if __name__ == '__main__':
     decompress()
