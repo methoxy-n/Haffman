@@ -1,9 +1,20 @@
+import pathlib
 import hashlib
 
 def print_hashsum(content):
-    md5 = hashlib.md5()
-    md5.update(content)
-    print(f'Checksum: {md5.hexdigest()}')
+    #md5 = hashlib.md5()
+    #md5.update(content)
+    #print(f'Checksum: {md5.hexdigest()}')
+    try:
+        pathlib.Path(content).is_file()
+        content = open(content, "rb").read()
+    except TypeError:
+        pass
+    finally:
+        if isinstance(content, bytes):
+            md5 = hashlib.md5()
+            md5.update(content)
+            print(f'Checksum: {md5.hexdigest()}')
     
     def get_tree(prob_dict):
     counter = sorted(prob_dict.items(), key=lambda x: x[1])
@@ -16,8 +27,8 @@ def print_hashsum(content):
     while len(nodes) > 1:
         left = nodes[0]
         right = nodes[1]
-        right.code = 0
-        left.code = 1
+        right.code = 1
+        left.code = 0
         new_node = BinaryNode(prob=left.prob + right.prob, content=left.content + right.content, left=left, right=right)
         nodes.remove(right)
         nodes.remove(left)
