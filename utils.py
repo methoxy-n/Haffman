@@ -1,7 +1,7 @@
-import pathlib
 import hashlib
-import matplotlib.pyplot as plt
+import pathlib
 import networkx as nx
+import matplotlib.pyplot as plt
 
 def print_hashsum(content):
     try:
@@ -14,30 +14,29 @@ def print_hashsum(content):
         md5 = hashlib.md5()
         md5.update(content)
         print(f'Checksum: {md5.hexdigest()}')
-        
-    
+
     def get_tree(prob_dict):
-    counter = sorted(prob_dict.items(), key=lambda x: x[1])
-   
+        counter = sorted(prob_dict.items(), key=lambda x: x[1])
 
-    nodes = []
-    for item in counter:
-        nodes.append(BinaryNode(content=item[0], prob=item[1]))
+        nodes = []
+        for item in counter:
+            nodes.append(BinaryNode(content=item[0], prob=item[1]))
 
-    while len(nodes) > 1:
-        left = nodes[0]
-        right = nodes[1]
-        right.code = 1
-        left.code = 0
-        new_node = BinaryNode(prob=left.prob + right.prob, content=left.content + right.content, left=left, right=right)
-        nodes.remove(right)
-        nodes.remove(left)
-        nodes.append(new_node)
-        nodes = sorted(nodes, key=lambda x: x.prob)
-        
-    return nodes[0]
 
-    class BinaryNode:
+        while len(nodes) > 1:
+            left = nodes[0]
+            right = nodes[1]
+            right.code = 1
+            left.code = 0
+            new_node = BinaryNode(prob=left.prob + right.prob, content=left.content + right.content, left=left, right=right)
+            nodes.remove(right)
+            nodes.remove(left)
+            nodes.append(new_node)
+            nodes = sorted(nodes, key=lambda x: x.prob)
+        return nodes[0]
+
+
+class BinaryNode:
     def __init__(self, prob, content, left=None, right=None):
         self.left = left
         self.right = right
@@ -65,12 +64,14 @@ def print_hashsum(content):
         if make_plot:
             G = nx.Graph()
             self.get_codes(haffman_dict, G=G)
-            nx.draw_kamada_kawai(G, with_labels=True, node_size=500, font_size=8, font_weight="bold", node_color="purple")
+            nx.draw_kamada_kawai(G, with_labels=True, node_size=500, font_size=8, font_weight="bold",
+                                 node_color="purple")
             plt.show()
         else:
             self.get_codes(haffman_dict)
+
         return haffman_dict
-    
+
     def dfs(self, G):
         if self.left:
             G.add_edge(f"{self.content}",
