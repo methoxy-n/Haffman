@@ -46,7 +46,7 @@ def compress():
     empty_bits = (8 - compressed_size % 8) % 8
     print(empty_bits)
     
-    utils.print_hashssum(content)
+    utils.print_hashsum(content)
     
     output = open(f"{pathlib.Path(name)}.hfcd", "wb")
     
@@ -69,3 +69,4 @@ def compress():
     output.close()
     
     if __name__ == '__main__':
+        compress()
