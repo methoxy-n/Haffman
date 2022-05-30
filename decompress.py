@@ -2,6 +2,7 @@ import utils
 import pathlib
 import sys
 
+
 def decompress():
     raw = ''
     name = ''
@@ -14,30 +15,22 @@ def decompress():
     if pathlib.Path(name).suffix != ".hfcd":
         print("File is not compressed yet")
         exit()
-        
+
     body_size = pathlib.Path(name).stat().st_size
-    
+
     empty_bits = int.from_bytes(raw.read(1), "big")
     body_size -= 1
     counter = {}
     while True:
         char = raw.read(1)
         body_size -= 1
-        if char == b'\x00':
-            break
-         prob = int.from_bytes(raw.read(4), "big")
+        prob = int.from_bytes(raw.read(4), "big")
         body_size -= 4
         counter[char] = prob
     print(counter)
     node = utils.get_tree(counter)
-    draw = False
-    try:
-        if sys.argv[2] == "draw":
-            draw = True
-    except IndexError:
-        pass
-    node.get_dict(draw)
-    
+    node.get_dict()
+
     print(empty_bits)
     print(f"body size: {body_size}")
     buffer = int.from_bytes(raw.read(1), "big")
@@ -65,5 +58,6 @@ def decompress():
     raw.close()
     utils.print_hashsum(f"decompressed{pathlib.Path(name).stem}")
 
-    if __name__ == '__main__':
+
+if __name__ == '__main__':
     decompress()

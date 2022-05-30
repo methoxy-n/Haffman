@@ -3,6 +3,7 @@ import pathlib
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
 def print_hashsum(content):
     try:
         pathlib.Path(content).is_file()
@@ -15,25 +16,25 @@ def print_hashsum(content):
         md5.update(content)
         print(f'Checksum: {md5.hexdigest()}')
 
-    def get_tree(prob_dict):
-        counter = sorted(prob_dict.items(), key=lambda x: x[1])
 
-        nodes = []
-        for item in counter:
-            nodes.append(BinaryNode(content=item[0], prob=item[1]))
+def get_tree(prob_dict):
+    counter = sorted(prob_dict.items(), key=lambda x: x[1])
 
+    nodes = []
+    for item in counter:
+        nodes.append(BinaryNode(content=item[0], prob=item[1]))
 
-        while len(nodes) > 1:
-            left = nodes[0]
-            right = nodes[1]
-            right.code = 1
-            left.code = 0
-            new_node = BinaryNode(prob=left.prob + right.prob, content=left.content + right.content, left=left, right=right)
-            nodes.remove(right)
-            nodes.remove(left)
-            nodes.append(new_node)
-            nodes = sorted(nodes, key=lambda x: x.prob)
-        return nodes[0]
+    while len(nodes) > 1:
+        left = nodes[0]
+        right = nodes[1]
+        right.code = 1
+        left.code = 0
+        new_node = BinaryNode(prob=left.prob + right.prob, content=left.content + right.content, left=left, right=right)
+        nodes.remove(right)
+        nodes.remove(left)
+        nodes.append(new_node)
+        nodes = sorted(nodes, key=lambda x: x.prob)
+    return nodes[0]
 
 
 class BinaryNode:
