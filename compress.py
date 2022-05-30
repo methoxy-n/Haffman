@@ -11,7 +11,7 @@ def compress():
     except IndexError:
         print("Choose file you want to compress")
         exit()
-    if pathlib.Path(name).suffix == ".hfcd"
+    if pathlib.Path(name).suffix == ".hfcd":
         print("File compressed")
         exit()
     content = raw.read()
