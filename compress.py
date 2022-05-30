@@ -25,13 +25,7 @@ def compress():
             counter[letter] += 1
 
     node = utils.get_tree(counter)
-    draw = False
-    try:
-        if sys.argv[2] == "draw":
-            draw = True
-    except IndexError:
-        pass
-    codes = node.get_dict(draw)
+    codes = node.get_dict()
 
     print(codes)
     print(counter)
@@ -50,6 +44,7 @@ def compress():
     output = open(f"{pathlib.Path(name)}.hfcd", "wb")
 
     output.write(empty_bits.to_bytes(1, byteorder="big"))
+    output.write((len(counter) % 256).to_bytes(1, byteorder="big"))
     for key in counter:
         output.write(key)
         output.write(counter[key].to_bytes(4, byteorder="big"))

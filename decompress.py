@@ -21,7 +21,11 @@ def decompress():
     empty_bits = int.from_bytes(raw.read(1), "big")
     body_size -= 1
     counter = {}
-    while True:
+    counter_len = int.from_bytes(raw.read(1), "big")
+    body_size -= 1
+    if not counter_len:
+        counter_len = 256
+    for _ in range(counter_len):
         char = raw.read(1)
         body_size -= 1
         prob = int.from_bytes(raw.read(4), "big")
